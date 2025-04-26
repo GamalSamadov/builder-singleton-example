@@ -8,7 +8,8 @@
 		"test:watch": "jest --watch",
 		"lint": "eslint",
 		"build": "tsc",
-		"dev": "dotenv -- nodemon"
+		"dev": "dotenv -- nodemon",
+		"db:push": "bunx prisma db push"
 	},
 	"repository": {
 		"type": "git",

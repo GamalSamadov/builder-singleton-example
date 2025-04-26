@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express'
-import { config } from './config'
+import { config } from './core/config'
+import { PrismaConnection } from './core/db/connect'
 
 const app = express()
 const port = config.PORT
@@ -12,8 +13,14 @@ async function run() {
 	})
 }
 
-run().then(() => {
-	app.listen(port, () => {
-		console.log(`Server is running at http://localhost:${port}`)
+run()
+	.then(async () => {
+		await PrismaConnection.getInstance().connect()
+		app.listen(port, () => {
+			console.log(`Server is running at http://localhost:${port}`)
+		})
 	})
-})
+	.catch(err => {
+		console.error('Error while connection on the server:', err)
+		process.exit(1)
+	})
